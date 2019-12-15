@@ -41,7 +41,7 @@ class MainViewModel(private val albumsRepository: AlbumsRepository) : ViewModel(
                         UiModel.Error
                     },
                     ifSuccess = {
-                        UiModel.Content(it.results)
+                        UiModel.Content(it)
                     }
             )
         }
