@@ -1,4 +1,4 @@
-package com.davidbragadeveloper.prognet.model
+package com.davidbragadeveloper.prognet.data.remote
 
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
@@ -12,5 +12,5 @@ interface DiscogsService {
         @Query("style") style: String,
         @Query("per_page") itemsPerPage: Int,
         @Query("page") page: Int
-    ): Deferred<ProgRockAlbumsResult>
+    ): Deferred<DiscogsAlbumsResult>
 }

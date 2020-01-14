@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.davidbragadeveloper.prognet.model.AlbumsRepository
-import com.davidbragadeveloper.prognet.model.ProgRockAlbum
+import com.davidbragadeveloper.domain.Album
+import com.davidbragadeveloper.usecases.usecases.DiscoverProgAlbums
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val albumsRepository: AlbumsRepository) : ViewModel() {
+class MainViewModel(private val discoverProgAlbums: DiscoverProgAlbums) : ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>
@@ -19,16 +19,16 @@ class MainViewModel(private val albumsRepository: AlbumsRepository) : ViewModel(
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val albums: List<ProgRockAlbum>) : UiModel()
+        class Content(val albums: List<Album>) : UiModel()
         object Error : UiModel()
-        class Navigation(val album: ProgRockAlbum) : UiModel()
+        class Navigation(val album: Album) : UiModel()
     }
 
     init {
         refresh()
     }
 
-    fun onAlbumClicked(album: ProgRockAlbum) {
+    fun onAlbumClicked(album: Album) {
         _model.value = UiModel.Navigation(album)
     }
 
@@ -36,7 +36,7 @@ class MainViewModel(private val albumsRepository: AlbumsRepository) : ViewModel(
         viewModelScope.launch {
             _model.value = UiModel.Loading
             _model.value =
-                albumsRepository.discoverProgAlbums().fold(
+                discoverProgAlbums().fold(
                     ifFailure = {
                         UiModel.Error
                     },

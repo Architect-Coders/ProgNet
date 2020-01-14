@@ -1,4 +1,4 @@
-package com.davidbragadeveloper.prognet.model
+package com.davidbragadeveloper.prognet.data.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -20,6 +20,7 @@ object DiscogsDb {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .run {
-            create<DiscogsService>(DiscogsService::class.java)
+            create<DiscogsService>(
+                DiscogsService::class.java)
         }
 }
