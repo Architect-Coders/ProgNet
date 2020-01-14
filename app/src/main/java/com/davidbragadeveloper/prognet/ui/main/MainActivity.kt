@@ -9,7 +9,7 @@ import com.davidbragadeveloper.prognet.BuildConfig
 import com.davidbragadeveloper.prognet.R
 import com.davidbragadeveloper.prognet.data.remote.DiscogsDataSource
 import com.davidbragadeveloper.prognet.ui.commons.getViewModel
-import com.davidbragadeveloper.usecases.usecases.buildDicoverProgAlbums
+import com.davidbragadeveloper.usecases.usecases.buildDiscoverProgAlbums
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel = getViewModel {
-            MainViewModel(discoverProgAlbums = buildDicoverProgAlbums(
+            MainViewModel(discoverProgAlbums = buildDiscoverProgAlbums(
                 repository = AlbumsDataRepository(
                     apiSecret = BuildConfig.discogsApiSecret,
                     apiKey = BuildConfig.discogsApiKey,

@@ -6,6 +6,6 @@ import com.davidbragadeveloper.usecases.repositories.AlbumsRepository
 
 typealias DiscoverProgAlbums = suspend () -> Try<List<Album>>
 
-fun buildDicoverProgAlbums(
+fun buildDiscoverProgAlbums(
     repository: AlbumsRepository
 ): DiscoverProgAlbums = { repository.dicoverProgAlbums() }
