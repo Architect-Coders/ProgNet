@@ -10,6 +10,8 @@ class AlbumsDataRepository(
     private val apiKey: String,
     private val apiSecret: String
 ) : AlbumsRepository {
+
     override suspend fun dicoverProgAlbums(): Try<List<Album>> =
         dataSource.discoverProgAlbums(apiKey = apiKey, apiSecret = apiSecret)
+
 }
