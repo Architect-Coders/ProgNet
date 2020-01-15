@@ -7,7 +7,10 @@ import androidx.lifecycle.Observer
 import com.davidbragadeveloper.data.repository.AlbumsDataRepository
 import com.davidbragadeveloper.prognet.BuildConfig
 import com.davidbragadeveloper.prognet.R
-import com.davidbragadeveloper.prognet.data.remote.DiscogsDataSource
+import com.davidbragadeveloper.prognet.data.local.ProgNetDatabase
+import com.davidbragadeveloper.prognet.data.local.RoomAlbumDataSource
+import com.davidbragadeveloper.prognet.data.remote.DiscogsAlbumDataSource
+import com.davidbragadeveloper.prognet.ui.commons.app
 import com.davidbragadeveloper.prognet.ui.commons.getViewModel
 import com.davidbragadeveloper.usecases.usecases.buildDiscoverProgAlbumsUseCase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +29,9 @@ class MainActivity : AppCompatActivity() {
                 repository = AlbumsDataRepository(
                     apiSecret = BuildConfig.discogsApiSecret,
                     apiKey = BuildConfig.discogsApiKey,
-                    dataSource = DiscogsDataSource())
+                    remoteDataSource = DiscogsAlbumDataSource(),
+                    localDataSource = RoomAlbumDataSource(dataBase = app.database)
+                )
             )) }
 
         adapter = AlbumsAdapter(viewModel::onAlbumClicked)

@@ -8,9 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-class DiscogsDataSource : AlbumRemoteDataSource {
+private const val ITEMS_PER_PAGE = 20
+class DiscogsAlbumDataSource : AlbumRemoteDataSource {
+
     private val style = "Prog Rock"
-    private val itemsPerPage = 20
 
     override suspend fun discoverProgAlbums(apiKey: String, apiSecret: String): Try<List<Album>> =
         withContext(Dispatchers.IO) {
@@ -20,11 +21,11 @@ class DiscogsDataSource : AlbumRemoteDataSource {
                         apiKey = apiKey,
                         apiSecret = apiSecret,
                         style = style,
-                        itemsPerPage = itemsPerPage,
+                        itemsPerPage = ITEMS_PER_PAGE,
                         page = Random.nextInt(500)
                     ).await()
             }
                 .map { it.results }
-                .map { it.toDomain() }
+                .map { it.map{it.toDomain()} }
         }
     }

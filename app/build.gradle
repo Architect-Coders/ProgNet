@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 
 def props = new Properties()
 file("../apiKeys.properties").withInputStream { props.load(it) }
@@ -21,6 +23,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'discogsApiKey', props.getProperty('discogsApiKey')
         buildConfigField 'String', 'discogsApiSecret', props.getProperty('discogsApiSecret')
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -72,6 +79,10 @@ dependencies {
     //arrow
     implementation "io.arrow-kt:arrow-core-data:0.9.0"
     implementation "io.arrow-kt:arrow-syntax:0.9.0"
+
+    //room
+    implementation 'androidx.room:room-runtime:2.2.3'
+    kapt 'androidx.room:room-compiler:2.2.3'
 
     //testing
     testImplementation 'junit:junit:4.12'

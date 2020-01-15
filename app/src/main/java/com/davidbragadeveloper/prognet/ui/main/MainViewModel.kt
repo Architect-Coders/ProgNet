@@ -8,7 +8,7 @@ import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.usecases.usecases.DiscoverProgAlbums
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val discoverProgAlbums: DiscoverProgAlbums) : ViewModel() {
+class MainViewModel(private inline val discoverProgAlbums: DiscoverProgAlbums) : ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>

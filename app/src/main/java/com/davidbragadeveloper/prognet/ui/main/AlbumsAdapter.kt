@@ -2,6 +2,8 @@ package com.davidbragadeveloper.prognet.ui.main
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.prognet.R
@@ -10,7 +12,7 @@ import com.davidbragadeveloper.prognet.ui.commons.inflate
 import com.davidbragadeveloper.prognet.ui.commons.loadUrl
 import kotlinx.android.synthetic.main.item_album.view.*
 
-class AlbumsAdapter(private val listener: (Album) -> Unit) : RecyclerView.Adapter<AlbumsAdapter.ViewHolder>() {
+class AlbumsAdapter(private inline val listener: (Album) -> Unit) : RecyclerView.Adapter<AlbumsAdapter.ViewHolder>() {
 
     var albums: List<Album> by basicDiffUtil(
         emptyList(),
@@ -31,11 +33,18 @@ class AlbumsAdapter(private val listener: (Album) -> Unit) : RecyclerView.Adapte
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val titleTextView: TextView = itemView.titleTextView
+        private val yearTextView: TextView = itemView.yearTextView
+        private val countryTextView: TextView = itemView.countryTextView
+        private val coverImageView: ImageView = itemView.coverImageView
+
         fun bind(album: Album) {
-            itemView.titleTextView.text = album.title
-            itemView.yearTextView.text = album.year
-            itemView.countryTextView.text = album.country
-            itemView.coverImageView.loadUrl(album.coverImage)
+            titleTextView.text = album.title
+            yearTextView.text = album.year
+            countryTextView.text = album.country
+            coverImageView.loadUrl(album.coverImage)
         }
+
     }
 }

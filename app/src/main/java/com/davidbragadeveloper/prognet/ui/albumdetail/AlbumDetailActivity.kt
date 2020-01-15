@@ -7,7 +7,7 @@ import com.davidbragadeveloper.prognet.R
 class AlbumDetailActivity : AppCompatActivity() {
 
     companion object {
-        const val ALBUM = "DetailActivity:movie"
+        const val ALBUM = "DetailActivity:album"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
