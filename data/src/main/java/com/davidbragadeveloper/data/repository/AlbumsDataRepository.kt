@@ -12,11 +12,10 @@ class AlbumsDataRepository(
     private val localDataSource: AlbumLocalDataSource,
     private val apiKey: String,
     private val apiSecret: String
-) : AlbumsRepository {
+) : AlbumsRepository{
 
     override suspend fun dicoverProgAlbums(): Try<List<Album>> =
         remoteDataSource
             .discoverProgAlbums(apiKey = apiKey, apiSecret = apiSecret)
-            .also {localDataSource.saveAlbums(it.getOrDefault { listOf() }) }
-
+            .also {localDataSource.saveAlbums(it.getOrDefault {listOf()})}
 }
