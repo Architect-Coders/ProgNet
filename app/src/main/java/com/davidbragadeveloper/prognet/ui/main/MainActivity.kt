@@ -14,26 +14,17 @@ import com.davidbragadeveloper.prognet.ui.commons.app
 import com.davidbragadeveloper.prognet.ui.commons.getViewModel
 import com.davidbragadeveloper.usecases.usecases.buildDiscoverProgAlbumsUseCase
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by currentScope.viewModel(this)
     private lateinit var adapter: AlbumsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel = getViewModel {
-            MainViewModel(discoverProgAlbums = buildDiscoverProgAlbumsUseCase(
-                repository = AlbumsDataRepository(
-                    apiSecret = BuildConfig.discogsApiSecret,
-                    apiKey = BuildConfig.discogsApiKey,
-                    remoteDataSource = DiscogsAlbumDataSource(),
-                    localDataSource = RoomAlbumDataSource(dataBase = app.database)
-                )
-            )) }
-
         adapter = AlbumsAdapter(viewModel::onAlbumClicked)
         recycler.adapter = adapter
         viewModel.model.observe(this, Observer(::updateUi))

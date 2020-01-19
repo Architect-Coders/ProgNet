@@ -7,12 +7,8 @@ import com.davidbragadeveloper.prognet.data.local.ProgNetDatabase
 
 class ProgNet : Application(){
 
-    val database : ProgNetDatabase by lazy {
-        Room.databaseBuilder(
-            this,
-            ProgNetDatabase::class.java,
-            "prog-net-db"
-        ).build()
+    override fun onCreate() {
+        super.onCreate()
+        initDI()
     }
-
 }
