@@ -15,7 +15,7 @@ data class DiscogsAlbumsResult(
 data class DiscogsAlbum(
     val id: Long,
     val title: String,
-    val year: String,
+    val year: String?,
     @SerializedName("cover_image")val coverImage: String,
     val country: String
 ) : Parcelable

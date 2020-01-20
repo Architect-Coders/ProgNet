@@ -9,9 +9,9 @@ import com.davidbragadeveloper.prognet.data.toRoomAlbum
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomAlbumDataSource(dataBase: ProgNetDatabase) : AlbumLocalDataSource{
+class RoomAlbumDataSource(private val dataBase: ProgNetDatabase) : AlbumLocalDataSource{
 
-    private val albumDao = dataBase.albumDao()
+    private val albumDao = this.dataBase.albumDao()
 
     override suspend fun isEmpty(): Try<Boolean> =
         withContext(Dispatchers.IO){ Try{ albumDao.albumCount() <= 0}}

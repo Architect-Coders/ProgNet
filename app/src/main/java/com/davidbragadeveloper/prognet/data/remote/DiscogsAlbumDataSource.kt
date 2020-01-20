@@ -9,14 +9,14 @@ import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 private const val ITEMS_PER_PAGE = 20
-class DiscogsAlbumDataSource : AlbumRemoteDataSource {
+class DiscogsAlbumDataSource(private val discogsDb: DiscogsDb) : AlbumRemoteDataSource {
 
     private val style = "Prog Rock"
 
     override suspend fun discoverProgAlbums(apiKey: String, apiSecret: String): Try<List<Album>> =
         withContext(Dispatchers.IO) {
             Try {
-                DiscogsDb.service
+                discogsDb.service
                     .discoverProgRockAlbums(
                         apiKey = apiKey,
                         apiSecret = apiSecret,

@@ -8,6 +8,7 @@ import com.davidbragadeveloper.data.source.AlbumRemoteDataSource
 import com.davidbragadeveloper.prognet.data.local.ProgNetDatabase
 import com.davidbragadeveloper.prognet.data.local.RoomAlbumDataSource
 import com.davidbragadeveloper.prognet.data.remote.DiscogsAlbumDataSource
+import com.davidbragadeveloper.prognet.data.remote.DiscogsDb
 import com.davidbragadeveloper.prognet.ui.main.MainActivity
 import com.davidbragadeveloper.prognet.ui.main.MainViewModel
 import com.davidbragadeveloper.usecases.repositories.AlbumsRepository
@@ -32,9 +33,11 @@ fun Application.initDI(){
 private val appModule = module{
     single(named("apiKey")) { BuildConfig.discogsApiKey }
     single(named("apiSecret")){ BuildConfig.discogsApiSecret }
-    single { Room.databaseBuilder(get(), ProgNetDatabase::class.java, "prog-net-db").build() }
+    single(named("baseUrl")) { "https://api.themoviedb.org/3/" }
+    single { DiscogsDb(get(named("baseUrl")))}
+    single { ProgNetDatabase.build(androidContext())}
     factory<AlbumLocalDataSource> { RoomAlbumDataSource(get()) }
-    factory<AlbumRemoteDataSource> { DiscogsAlbumDataSource() }
+    factory<AlbumRemoteDataSource> { DiscogsAlbumDataSource(get()) }
 }
 
 private val dataModule = module {
@@ -45,9 +48,8 @@ private val dataModule = module {
 
 
 private val scopesModule = module{
-
     scope(named<MainActivity>()) {
-        viewModel { MainViewModel(get()) }
         scoped { buildDiscoverProgAlbumsUseCase(get()) }
+        viewModel { MainViewModel(get()) }
     }
 }

@@ -7,7 +7,7 @@ import com.davidbragadeveloper.prognet.data.remote.DiscogsAlbum
 fun DiscogsAlbum.toDomain() = Album(
     id = id,
     title = title,
-    year = year,
+    year = year ?: "",
     coverImage = coverImage,
     country = country
 )
