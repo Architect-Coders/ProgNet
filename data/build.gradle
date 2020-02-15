@@ -4,9 +4,7 @@ apply plugin: 'kotlin'
 dependencies {
     implementation project (':domain')
     implementation project (':usecases')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //arrow
-    implementation "io.arrow-kt:arrow-core-data:0.9.0"
-    implementation "io.arrow-kt:arrow-syntax:0.9.0"
+    implementation kotlinLibs.values()
+    testImplementation testLibs.values()
 }
