@@ -4,15 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.davidbragadeveloper.data.repository.AlbumsDataRepository
-import com.davidbragadeveloper.prognet.BuildConfig
 import com.davidbragadeveloper.prognet.R
-import com.davidbragadeveloper.prognet.data.local.ProgNetDatabase
-import com.davidbragadeveloper.prognet.data.local.RoomAlbumDataSource
-import com.davidbragadeveloper.prognet.data.remote.DiscogsAlbumDataSource
-import com.davidbragadeveloper.prognet.ui.commons.app
-import com.davidbragadeveloper.prognet.ui.commons.getViewModel
-import com.davidbragadeveloper.usecases.usecases.buildDiscoverProgAlbumsUseCase
+import com.davidbragadeveloper.prognet.ui.albumdetail.AlbumDetailActivity
+import com.davidbragadeveloper.prognet.ui.commons.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,11 +31,12 @@ class MainActivity : AppCompatActivity() {
         errorScreen.visibility = if (model is MainViewModel.UiModel.Error) View.VISIBLE else View.GONE
 
         when (model) {
-            is MainViewModel.UiModel.Content -> adapter.albums = model.albums
-            is MainViewModel.UiModel.Navigation -> { } // TODO: Update when database
-            /*startActivity<AlbumDetailActivity> {
-                putExtra(AlbumDetailActivity.ALBUM, model.album)
-            }*/
+            is MainViewModel.UiModel.Content ->{ adapter.albums = model.albums }
+            is MainViewModel.UiModel.Navigation -> {
+                startActivity<AlbumDetailActivity> {
+                    putExtra(AlbumDetailActivity.ALBUM, model.album)
+                }
+            }
         }
     }
 }

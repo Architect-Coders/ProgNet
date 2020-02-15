@@ -14,8 +14,16 @@ data class DiscogsAlbumsResult(
 @Parcelize
 data class DiscogsAlbum(
     val id: Long,
-    val title: String,
+    val title: String?,
     val year: String?,
-    @SerializedName("cover_image")val coverImage: String,
-    val country: String
+    @SerializedName("cover_image")val coverImage: String?,
+    val country: String?,
+    val discogsTracks: List<DiscogsTrack>?
 ) : Parcelable
+
+@Parcelize
+data class DiscogsTrack(
+    val duration : String,
+    val position: String,
+    val title: String
+): Parcelable

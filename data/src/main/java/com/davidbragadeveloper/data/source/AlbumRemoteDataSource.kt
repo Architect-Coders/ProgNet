@@ -4,5 +4,6 @@ import arrow.core.Try
 import com.davidbragadeveloper.domain.Album
 
 interface AlbumRemoteDataSource {
-    suspend fun discoverProgAlbums(apiKey: String, apiSecret: String): Try<List<Album>>
+    suspend fun discoverAlbums(apiKey: String, apiSecret: String): Try<List<Album>>
+    suspend fun getAlbumById(albumId: Long): Try<Album>
 }

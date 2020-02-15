@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ui.albumdetail.AlbumDetailActivity">
 
+    <ImageView
+        android:id="@+id/mainImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:src="@drawable/placeholder"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/bottomPhotoGuideLine"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@id/mainImageView"
+        android:background="@drawable/bottom_image_gradient"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomPhotoGuideLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.33"
+        />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/mainImageView"
+        tools:text="Title of album"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:textSize="17sp"/>
+
+    <FrameLayout
+        android:id="@+id/trackListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottomPhotoGuideLine"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

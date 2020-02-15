@@ -9,4 +9,5 @@ interface AlbumLocalDataSource {
     suspend fun getAlbums(): Try<List<Album>>
     suspend fun findById(id: Long): Try<Album>
     suspend fun update(album: Album)
+    suspend fun saveNotSavedAlbums(albums: List<Album>)
 }

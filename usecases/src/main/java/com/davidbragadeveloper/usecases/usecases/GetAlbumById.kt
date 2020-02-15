@@ -4,11 +4,9 @@ import arrow.core.Try
 import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.usecases.repositories.AlbumsRepository
 
-typealias DiscoverAlbums = suspend () -> Try<List<Album>>
+typealias GetAlbumById = suspend (Long) -> Try<Album>
 
-fun buildDiscoverAlbumsUseCase(
+fun buildGetAlbumByIdUseCase(
     repository: AlbumsRepository
-): DiscoverAlbums = { repository.dicoverAlbums() }
-
-
+): GetAlbumById = {albumId -> repository.getAlbumById(albumId = albumId)}
 

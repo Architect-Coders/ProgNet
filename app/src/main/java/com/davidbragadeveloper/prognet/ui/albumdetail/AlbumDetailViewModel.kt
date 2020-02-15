@@ -1,14 +1,17 @@
-package com.davidbragadeveloper.prognet.ui.main
+package com.davidbragadeveloper.prognet.ui.albumdetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidbragadeveloper.domain.Album
-import com.davidbragadeveloper.usecases.usecases.DiscoverAlbums
+import com.davidbragadeveloper.usecases.usecases.GetAlbumById
 import kotlinx.coroutines.launch
 
-class MainViewModel(private inline val discoverAlbums: DiscoverAlbums) : ViewModel() {
+class AlbumDetailViewModel(
+    private val shortAlbumData: Album,
+    private val getAlbumById: GetAlbumById
+): ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>
@@ -19,31 +22,26 @@ class MainViewModel(private inline val discoverAlbums: DiscoverAlbums) : ViewMod
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val albums: List<Album>) : UiModel()
+        class Content(val album: Album) : UiModel()
         object Error : UiModel()
-        class Navigation(val album: Album) : UiModel()
     }
 
     init {
         refresh()
     }
 
-    fun onAlbumClicked(album: Album) {
-        _model.value = UiModel.Navigation(album)
-    }
-
     private fun refresh() {
         viewModelScope.launch {
             _model.value = UiModel.Loading
             _model.value =
-                discoverAlbums().fold(
+                getAlbumById(shortAlbumData.id).fold(
                     ifFailure = {
                         UiModel.Error
                     },
                     ifSuccess = {
                         UiModel.Content(it)
                     }
-            )
+                )
         }
     }
 }

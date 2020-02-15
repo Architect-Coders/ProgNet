@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.davidbragadeveloper.prognet.data.local.dao.RoomAlbumDao
+import com.davidbragadeveloper.prognet.data.local.dao.RoomTrackDao
+import com.davidbragadeveloper.prognet.data.local.entities.RoomAlbum
+import com.davidbragadeveloper.prognet.data.local.entities.RoomTrack
 
-@Database(entities = [RoomAlbum::class], version = 1)
+@Database(entities = [RoomAlbum::class, RoomTrack::class], version = 1)
 abstract class ProgNetDatabase : RoomDatabase() {
 
     companion object{
@@ -19,6 +23,8 @@ abstract class ProgNetDatabase : RoomDatabase() {
     }
 
     abstract fun albumDao(): RoomAlbumDao
+
+    abstract fun trackDao(): RoomTrackDao
 
 
 }

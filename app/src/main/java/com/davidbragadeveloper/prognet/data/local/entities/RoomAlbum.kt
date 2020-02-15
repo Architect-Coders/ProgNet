@@ -1,4 +1,4 @@
-package com.davidbragadeveloper.prognet.data.local
+package com.davidbragadeveloper.prognet.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

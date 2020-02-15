@@ -1,13 +1,16 @@
-package com.davidbragadeveloper.prognet.data.local
+package com.davidbragadeveloper.prognet.data.local.dao
 
 import androidx.room.*
-import com.davidbragadeveloper.domain.Album
+import com.davidbragadeveloper.prognet.data.local.entities.RoomAlbum
 
 @Dao
 interface RoomAlbumDao {
 
     @Query("SELECT * FROM Album")
     fun getAll(): List<RoomAlbum>
+
+    @Query("SELECT * FROM Album INNER JOIN Track ON Album.id=Track.albumId")
+    fun getAllAlbumsWithTracks(): List<RoomAlbum>
 
     @Query("SELECT * FROM Album WHERE id = :id")
     fun findById(id: Long): RoomAlbum
@@ -17,6 +20,9 @@ interface RoomAlbumDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAlbums(albums: List<RoomAlbum>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAlbumsIfAreNotSet(albums: List<RoomAlbum>)
 
     @Update
     fun updateAlbum(album: RoomAlbum)

@@ -2,6 +2,7 @@ package com.davidbragadeveloper.data.repository
 
 import arrow.core.Try
 import arrow.core.getOrDefault
+import arrow.core.getOrElse
 import com.davidbragadeveloper.data.source.AlbumLocalDataSource
 import com.davidbragadeveloper.data.source.AlbumRemoteDataSource
 import com.davidbragadeveloper.domain.Album
@@ -14,8 +15,45 @@ class AlbumsDataRepository(
     private val apiSecret: String
 ) : AlbumsRepository{
 
-    override suspend fun dicoverProgAlbums(): Try<List<Album>> =
+    override suspend fun dicoverAlbums(): Try<List<Album>> =
         remoteDataSource
-            .discoverProgAlbums(apiKey = apiKey, apiSecret = apiSecret)
-            .also {localDataSource.saveAlbums(it.getOrDefault {listOf()})}
+            .discoverAlbums(apiKey = apiKey, apiSecret = apiSecret)
+            .also { localDataSource.saveAlbums(it.getOrDefault {listOf()} )}
+
+    override suspend fun getAlbumById(albumId: Long): Try<Album> {
+        val expectedLocalAlbum =
+            localDataSource
+            .findById(id = albumId)
+
+        if(expectedLocalAlbum.exists { false } ){
+            return expectedLocalAlbum
+        } else{
+            return remoteDataSource
+                .getAlbumById(albumId = albumId)
+                .map { remoteAlbum ->
+                    val localAlbum = expectedLocalAlbum.getOrDefault{ remoteAlbum }
+                    localAlbum.merge(remoteAlbum)
+                }
+                .also { it.getOrDefault{null}?.let{
+                        localDataSource.saveAlbums(listOf(it))
+                }}
+        }
+
+    }
+
+
+    private fun Album.merge(other: Album): Album =
+        if(id != other.id){
+            this
+        } else {
+            copy(
+                id= id,
+                title = if(title.isBlank()) other.title else title,
+                year =  if(year.isBlank()) other.year else year,
+                coverImage = if(coverImage.isBlank()) other.coverImage else coverImage,
+                country = if(country.isBlank()) other.country else country,
+                tracks = if(tracks.isEmpty()) other.tracks else tracks
+            )
+        }
 }
+

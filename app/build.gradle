@@ -45,9 +45,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Library dependency
-    implementation project (':data')
-    implementation project (':domain')
-    implementation project (':usecases')
+    implementation project(':data')
+    implementation project(':domain')
+    implementation project(':usecases')
 
     implementation androidLibs.values()
     implementation kotlinLibs.values()
