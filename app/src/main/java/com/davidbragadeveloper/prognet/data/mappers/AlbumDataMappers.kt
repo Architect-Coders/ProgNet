@@ -1,6 +1,7 @@
 package com.davidbragadeveloper.prognet.data.mappers
 
 import com.davidbragadeveloper.domain.Album
+import com.davidbragadeveloper.domain.ProgNetLocation
 import com.davidbragadeveloper.prognet.data.local.entities.RoomAlbum
 import com.davidbragadeveloper.prognet.data.local.entities.RoomTrack
 import com.davidbragadeveloper.prognet.data.remote.DiscogsAlbum
@@ -21,8 +22,16 @@ fun RoomAlbum.toDomain() = Album(
     title = title,
     year = year,
     coverImage = coverImage,
-    country = country
-)
+    country = country,
+    heared = heared,
+    location = if(latitude != null && longitude != null) {
+        ProgNetLocation(
+            latitude = latitude,
+            longitude = longitude
+        )
+    }else {
+        null
+    })
 
 
 fun Album.toRoomAlbum() =
@@ -31,8 +40,12 @@ fun Album.toRoomAlbum() =
         title = title,
         year = year,
         coverImage = coverImage,
-        country = country
+        country = country,
+        heared = heared,
+        latitude = location?.latitude,
+        longitude = location?.longitude
     )
+
 
 fun Album.toRoomTrackList()=
     tracks.map{
@@ -43,4 +56,5 @@ fun Album.toRoomTrackList()=
             albumId = id
         )
     }
+
 

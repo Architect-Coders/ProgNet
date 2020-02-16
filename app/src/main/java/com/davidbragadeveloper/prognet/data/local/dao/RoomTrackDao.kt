@@ -5,7 +5,6 @@ import com.davidbragadeveloper.domain.Track
 
 import com.davidbragadeveloper.prognet.data.local.entities.RoomTrack
 
-
 @Dao
 interface RoomTrackDao{
     @Insert

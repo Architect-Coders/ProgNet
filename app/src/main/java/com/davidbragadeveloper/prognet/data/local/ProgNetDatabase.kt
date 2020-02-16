@@ -19,12 +19,9 @@ abstract class ProgNetDatabase : RoomDatabase() {
                 ProgNetDatabase::class.java,
                 "prog-net-db"
             ).build()
-
     }
 
     abstract fun albumDao(): RoomAlbumDao
 
     abstract fun trackDao(): RoomTrackDao
-
-
 }

@@ -41,6 +41,11 @@ android {
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -56,6 +61,7 @@ dependencies {
 
     testImplementation testLibs.values()
     androidTestImplementation androidTestLibs.values()
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 
 }

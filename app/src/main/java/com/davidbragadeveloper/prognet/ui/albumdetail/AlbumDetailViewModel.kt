@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class AlbumDetailViewModel(
     private val shortAlbumData: Album,
-    private val getAlbumById: GetAlbumById,
-    private val toggleAlbumHeared: ToggleAlbumHeared
+    private inline val getAlbumById: GetAlbumById,
+    private inline val toggleAlbumHeared: ToggleAlbumHeared
 ): ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
@@ -48,7 +48,16 @@ class AlbumDetailViewModel(
 
     fun hearedFabClicked() = viewModelScope.launch {
         when (val modelValue = model.value) {
-            is UiModel.Content -> toggleAlbumHeared(modelValue.album.id, true)
+            is UiModel.Content -> {
+                viewModelScope.launch {
+                    toggleAlbumHeared(modelValue.album)
+                        .fold(
+                            ifFailure = {},
+                            ifSuccess = { refresh() }
+                        )
+                }
+
+            }
             else -> {}
         }
     }

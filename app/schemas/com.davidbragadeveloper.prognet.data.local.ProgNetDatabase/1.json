@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "17cb0b72ddc76eb189742674d6b9ee61",
+    "identityHash": "015befd4e369bc3998f0eebe26e001ef",
     "entities": [
       {
         "tableName": "Album",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `year` TEXT NOT NULL, `coverImage` TEXT NOT NULL, `country` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `year` TEXT NOT NULL, `coverImage` TEXT NOT NULL, `country` TEXT NOT NULL, `heared` INTEGER NOT NULL, `latitude` REAL, `longitude` REAL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -37,6 +37,24 @@
             "columnName": "country",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "heared",
+            "columnName": "heared",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -108,7 +126,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '17cb0b72ddc76eb189742674d6b9ee61')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '015befd4e369bc3998f0eebe26e001ef')"
     ]
   }
 }

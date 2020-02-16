@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.davidbragadeveloper.domain.Album
@@ -50,6 +51,7 @@ class AlbumDetailActivity : AppCompatActivity() {
                 with(model.album){
                     titleTextView.text = title
                     mainImageView.loadUrl(url = coverImage)
+                    refreshFabButtonState(isHeared = heared)
                 }
             }
             AlbumDetailViewModel.UiModel.Error -> {}
@@ -64,6 +66,16 @@ class AlbumDetailActivity : AppCompatActivity() {
                }
            }
        }
+    }
+
+    private fun refreshFabButtonState(isHeared: Boolean){
+        hearedFab.backgroundTintList = ColorStateList.valueOf(
+            if(isHeared){
+                ContextCompat.getColor(this@AlbumDetailActivity,R.color.colorAccent)
+            } else {
+                Color.DKGRAY
+            }
+        )
     }
 
 

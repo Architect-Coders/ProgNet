@@ -9,5 +9,8 @@ data class RoomAlbum(
     val title: String,
     val year: String,
     val coverImage: String,
-    val country: String
+    val country: String,
+    val heared: Boolean,
+    val latitude: RoomCoordinate?,
+    val longitude: RoomCoordinate?
 )

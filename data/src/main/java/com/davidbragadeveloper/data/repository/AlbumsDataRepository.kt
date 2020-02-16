@@ -41,6 +41,10 @@ class AlbumsDataRepository(
 
     }
 
+    override suspend fun toggleAlbumHeared(album: Album): Try<Boolean> =
+        localDataSource.update(album)
+
+
 
     private fun Album.merge(other: Album): Album =
         if(id != other.id){
@@ -52,7 +56,9 @@ class AlbumsDataRepository(
                 year =  if(year.isBlank()) other.year else year,
                 coverImage = if(coverImage.isBlank()) other.coverImage else coverImage,
                 country = if(country.isBlank()) other.country else country,
-                tracks = if(tracks.isNullOrEmpty()) other.tracks else tracks
+                tracks = if(tracks.isNullOrEmpty()) other.tracks else tracks,
+                heared = heared,
+                location = location
             )
         }
 }

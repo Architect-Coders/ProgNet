@@ -15,6 +15,9 @@ interface RoomAlbumDao {
     @Query("SELECT COUNT(id) FROM Album")
     fun albumCount(): Int
 
+    @Query("SELECT heared FROM album where id = :id")
+    fun isAlbumHeared(id: Long): Boolean
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAlbums(albums: List<RoomAlbum>)
 

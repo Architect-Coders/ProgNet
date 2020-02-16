@@ -8,5 +8,7 @@ data class Album(
     val year: String,
     val coverImage: String,
     val country: String,
-    val tracks: List<Track> = listOf()
+    val tracks: List<Track> = listOf(),
+    val heared: Boolean = false,
+    val location: ProgNetLocation? = null
 ): Serializable
