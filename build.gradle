@@ -47,6 +47,7 @@ allprojects {
 
         kotlinLibs = [
                 stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+                coroutines: 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2',
                 arrowCore : 'io.arrow-kt:arrow-core-data:0.9.0',
                 arrowSintax: 'io.arrow-kt:arrow-syntax:0.9.0'
         ]
