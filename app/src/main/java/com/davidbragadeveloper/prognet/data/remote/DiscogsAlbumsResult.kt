@@ -18,7 +18,7 @@ data class DiscogsAlbum(
     val year: String?,
     @SerializedName("cover_image")val coverImage: String?,
     val country: String?,
-    val discogsTracks: List<DiscogsTrack>?
+    @SerializedName("tracklist") val discogsTracks: List<DiscogsTrack>?
 ) : Parcelable
 
 @Parcelize

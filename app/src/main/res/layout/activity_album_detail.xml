@@ -30,10 +30,32 @@
         app:layout_constraintGuide_percent="0.33"
         />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalFabGuideline"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/hearedFab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/verticalFabGuideline"
+        app:layout_constraintStart_toEndOf="@id/verticalFabGuideline"
+        app:layout_constraintTop_toBottomOf="@id/bottomPhotoGuideLine"
+        app:layout_constraintBottom_toTopOf="@id/bottomPhotoGuideLine"
+        android:src="@drawable/ic_hearing_white_24dp"
+        />
+
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/hearedFab"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@id/mainImageView"
         tools:text="Title of album"
         android:textColor="@android:color/white"

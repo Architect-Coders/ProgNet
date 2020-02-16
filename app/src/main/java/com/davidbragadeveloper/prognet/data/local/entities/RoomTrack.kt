@@ -17,8 +17,8 @@ import androidx.room.PrimaryKey
     )
 )
 data class RoomTrack(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    val duration : String,
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    val duration: String,
     val position: String,
     val title: String,
     val albumId: Long

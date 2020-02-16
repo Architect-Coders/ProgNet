@@ -5,6 +5,7 @@ import com.davidbragadeveloper.data.source.AlbumLocalDataSource
 import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.prognet.data.mappers.toDomain
 import com.davidbragadeveloper.prognet.data.mappers.toRoomAlbum
+import com.davidbragadeveloper.prognet.data.mappers.toRoomTrackList
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +19,13 @@ class RoomAlbumDataSource(private val dataBase: ProgNetDatabase) : AlbumLocalDat
         withContext(Dispatchers.IO){ Try{ albumDao.albumCount() <= 0} }
 
     override suspend fun saveAlbums(albums: List<Album>) =
-        withContext(Dispatchers.IO){ albumDao.insertAlbums(albums= albums.map{it.toRoomAlbum()})}
+        withContext(Dispatchers.IO){
+            albumDao
+                .insertAlbums(albums= albums.map{it.toRoomAlbum()})
+            albums.forEach { album ->
+                trackDao.insertTrack(track = album.toRoomTrackList())
+            }
+        }
 
     override suspend fun saveNotSavedAlbums(albums: List<Album>) =
         withContext(Dispatchers.IO){
@@ -26,10 +33,24 @@ class RoomAlbumDataSource(private val dataBase: ProgNetDatabase) : AlbumLocalDat
         }
 
     override suspend fun getAlbums(): Try<List<Album>> =
-        withContext(Dispatchers.IO){ Try{albumDao.getAll().map{it.toDomain()}} }
+        withContext(Dispatchers.IO){
+            Try{
+                albumDao.getAll().map{
+                    it
+                        .toDomain()
+                        .copy(tracks = trackDao.findTrackByAlbumId(it.id))
+                }
+            }
+        }
 
     override suspend fun findById(id: Long): Try<Album> =
-        withContext(Dispatchers.IO){ Try{albumDao.findById(id).toDomain()}}
+        withContext(Dispatchers.IO){
+            Try{
+                albumDao.findById(id)
+                    .toDomain()
+                    .copy(tracks = trackDao.findTrackByAlbumId(id))
+            }
+        }
 
     override suspend fun update(album: Album) =
         withContext(Dispatchers.IO){ albumDao.updateAlbum(album = album.toRoomAlbum())}

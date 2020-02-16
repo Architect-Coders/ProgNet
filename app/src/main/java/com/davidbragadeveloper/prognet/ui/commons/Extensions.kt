@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -50,19 +53,15 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
 
-inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T {
-    return ViewModelProvider(this)[T::class.java]
-}
-
-@Suppress("UNCHECKED_CAST")
-inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
-
-    val vmFactory = object : ViewModelProvider.Factory {
-        override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
-    }
-
-    return ViewModelProvider(this, vmFactory)[T::class.java]
-}
 
 val Context.app: ProgNet
     get() = applicationContext as ProgNet
+
+fun AppCompatActivity.replace(@IdRes container: Int, tag: String, fragmentCreator: () -> Fragment) {
+    val fragment =
+        supportFragmentManager.findFragmentByTag(tag) ?: fragmentCreator()
+    supportFragmentManager
+        .beginTransaction()
+        .replace(container, fragment, tag)
+        .commit()
+}

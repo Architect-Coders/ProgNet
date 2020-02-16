@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.usecases.usecases.GetAlbumById
+import com.davidbragadeveloper.usecases.usecases.ToggleAlbumHeared
 import kotlinx.coroutines.launch
 
 class AlbumDetailViewModel(
     private val shortAlbumData: Album,
-    private val getAlbumById: GetAlbumById
+    private val getAlbumById: GetAlbumById,
+    private val toggleAlbumHeared: ToggleAlbumHeared
 ): ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
@@ -30,7 +32,7 @@ class AlbumDetailViewModel(
         refresh()
     }
 
-    private fun refresh() {
+    private fun refresh() =
         viewModelScope.launch {
             _model.value = UiModel.Loading
             _model.value =
@@ -43,5 +45,12 @@ class AlbumDetailViewModel(
                     }
                 )
         }
+
+    fun hearedFabClicked() = viewModelScope.launch {
+        when (val modelValue = model.value) {
+            is UiModel.Content -> toggleAlbumHeared(modelValue.album.id, true)
+            else -> {}
+        }
     }
 }
+

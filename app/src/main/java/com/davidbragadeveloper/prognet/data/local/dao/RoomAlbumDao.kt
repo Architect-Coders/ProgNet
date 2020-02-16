@@ -9,9 +9,6 @@ interface RoomAlbumDao {
     @Query("SELECT * FROM Album")
     fun getAll(): List<RoomAlbum>
 
-    @Query("SELECT * FROM Album INNER JOIN Track ON Album.id=Track.albumId")
-    fun getAllAlbumsWithTracks(): List<RoomAlbum>
-
     @Query("SELECT * FROM Album WHERE id = :id")
     fun findById(id: Long): RoomAlbum
 

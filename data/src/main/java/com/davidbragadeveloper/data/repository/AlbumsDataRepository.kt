@@ -18,24 +18,24 @@ class AlbumsDataRepository(
     override suspend fun dicoverAlbums(): Try<List<Album>> =
         remoteDataSource
             .discoverAlbums(apiKey = apiKey, apiSecret = apiSecret)
-            .also { localDataSource.saveAlbums(it.getOrDefault {listOf()} )}
+            .also { localDataSource.saveNotSavedAlbums(it.getOrDefault {listOf()} )}
 
     override suspend fun getAlbumById(albumId: Long): Try<Album> {
         val expectedLocalAlbum =
             localDataSource
             .findById(id = albumId)
 
-        if(expectedLocalAlbum.exists { false } ){
-            return expectedLocalAlbum
+        return if(expectedLocalAlbum.exists { !it.tracks.isNullOrEmpty() } ){
+            expectedLocalAlbum
         } else{
-            return remoteDataSource
+            remoteDataSource
                 .getAlbumById(albumId = albumId)
                 .map { remoteAlbum ->
                     val localAlbum = expectedLocalAlbum.getOrDefault{ remoteAlbum }
                     localAlbum.merge(remoteAlbum)
                 }
                 .also { it.getOrDefault{null}?.let{
-                        localDataSource.saveAlbums(listOf(it))
+                    localDataSource.saveAlbums(listOf(it))
                 }}
         }
 
@@ -52,7 +52,7 @@ class AlbumsDataRepository(
                 year =  if(year.isBlank()) other.year else year,
                 coverImage = if(coverImage.isBlank()) other.coverImage else coverImage,
                 country = if(country.isBlank()) other.country else country,
-                tracks = if(tracks.isEmpty()) other.tracks else tracks
+                tracks = if(tracks.isNullOrEmpty()) other.tracks else tracks
             )
         }
 }

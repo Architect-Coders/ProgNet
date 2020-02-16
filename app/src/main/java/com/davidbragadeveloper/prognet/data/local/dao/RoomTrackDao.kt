@@ -9,17 +9,17 @@ import com.davidbragadeveloper.prognet.data.local.entities.RoomTrack
 @Dao
 interface RoomTrackDao{
     @Insert
-    fun insert(repo: RoomTrack?)
+    fun insertTrack(track: List<RoomTrack>)
 
     @Update
-    fun update(tracks: List<RoomTrack>)
+    fun updateTrack(tracks: List<RoomTrack>)
 
     @Delete
-    fun delete(tracks: List<RoomTrack>)
+    fun deleteTrack(tracks: List<RoomTrack>)
 
     @Query("SELECT * FROM Track")
-    fun getAllTracks(): List<Track>?
+    fun getAllTracks(): List<Track>
 
     @Query("SELECT * FROM Track WHERE albumId=:albumId")
-    fun findRepositoriesForUser(albumId: Long): List<Track?>?
+    fun findTrackByAlbumId(albumId: Long): List<Track>
 }
