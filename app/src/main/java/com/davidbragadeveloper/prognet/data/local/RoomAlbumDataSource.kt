@@ -52,7 +52,7 @@ class RoomAlbumDataSource(private val dataBase: ProgNetDatabase) : AlbumLocalDat
             }
         }
 
-    override suspend fun update(album: Album):Try<Boolean> =
+    override suspend fun updateHeared(album: Album):Try<Boolean> =
         withContext(Dispatchers.IO){
             Try {
                 val roomAlbum = album.toRoomAlbum()

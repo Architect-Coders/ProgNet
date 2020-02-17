@@ -51,7 +51,7 @@ private val appModule = module{
     factory<PermissionChecker>{ AndroidPermissionChecker(get())}
 }
 
-private val dataModule = module {
+val dataModule = module {
     factory<AlbumsRepository> {
         AlbumsDataRepository(get(), get(), get(named("apiKey")),get(named("apiSecret")))
     }

@@ -2,7 +2,6 @@ package com.davidbragadeveloper.data.repository
 
 import arrow.core.Try
 import arrow.core.getOrDefault
-import arrow.core.getOrElse
 import com.davidbragadeveloper.data.source.AlbumLocalDataSource
 import com.davidbragadeveloper.data.source.AlbumRemoteDataSource
 import com.davidbragadeveloper.domain.Album
@@ -42,7 +41,7 @@ class AlbumsDataRepository(
     }
 
     override suspend fun toggleAlbumHeared(album: Album): Try<Boolean> =
-        localDataSource.update(album)
+        localDataSource.updateHeared(album)
 
 
 
