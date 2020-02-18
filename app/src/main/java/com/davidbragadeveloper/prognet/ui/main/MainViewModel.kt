@@ -6,9 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidbragadeveloper.domain.Album
 import com.davidbragadeveloper.usecases.usecases.DiscoverAlbums
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(private inline val discoverAlbums: DiscoverAlbums) : ViewModel() {
+class MainViewModel(
+    private inline val discoverAlbums: DiscoverAlbums,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
+    ) : ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>
@@ -24,19 +29,20 @@ class MainViewModel(private inline val discoverAlbums: DiscoverAlbums) : ViewMod
         class Navigation(val album: Album) : UiModel()
     }
 
-    init {
-        refresh()
-    }
 
     fun onAlbumClicked(album: Album) {
         _model.value = UiModel.Navigation(album)
     }
 
-    private fun refresh() {
-        viewModelScope.launch {
+    init {
+        _model.value = UiModel.Loading
+    }
+
+    fun refresh() {
+        viewModelScope.launch(dispatcher) {
             _model.value = UiModel.Loading
             _model.value =
-                discoverAlbums().fold(
+                discoverAlbums.invoke().fold(
                     ifFailure = {
                         UiModel.Error
                     },

@@ -12,17 +12,18 @@ file("../apiKeys.properties").withInputStream { props.load(it) }
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.davidbragadeveloper.prognet"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'discogsApiKey', props.getProperty('discogsApiKey')
         buildConfigField 'String', 'discogsApiSecret', props.getProperty('discogsApiSecret')
+        multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -41,10 +42,14 @@ android {
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+androidExtensions {
+    experimental = true
 }
+
+repositories{
+    mavenCentral()
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -59,9 +64,9 @@ dependencies {
     implementation libs.values()
     kapt androidKaptLibs.values()
 
-    testImplementation testLibs.values()
-    androidTestImplementation androidTestLibs.values()
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
+    debugImplementation testLibs.values()
+    testImplementation androidxTestLibs.values()
+    androidTestImplementation androidTestLibs.values()
 
 }

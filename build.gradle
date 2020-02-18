@@ -34,6 +34,7 @@ allprojects {
                 lifecycleLiveData   : 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
                 lifecycleRuntime    : 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0',
                 material            : 'com.google.android.material:material:1.0.0',
+                playServiceLocation : 'com.google.android.gms:play-services-location:17.0.0',
                 roomRuntime         : 'androidx.room:room-runtime:2.2.3',
                 glide               : 'com.github.bumptech.glide:glide:4.9.0',
                 legacySupport       : 'androidx.legacy:legacy-support-v4:1.0.0',
@@ -47,7 +48,8 @@ allprojects {
 
         kotlinLibs = [
                 stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-                coroutines: 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2',
+                coroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2",
+                coroutinesAndroid: 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2',
                 arrowCore : 'io.arrow-kt:arrow-core-data:0.9.0',
                 arrowSintax: 'io.arrow-kt:arrow-syntax:0.9.0'
         ]
@@ -63,10 +65,15 @@ allprojects {
         ]
 
         testLibs = [
-                junit        : 'junit:junit:4.12',
-                mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
-                mockitoInline: "org.mockito:mockito-inline:2.28.2",
-                koinTest     : 'org.koin:koin-test:2.0.1'
+                junit           : 'junit:junit:4.12',
+                mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+                mockitoInline   : "org.mockito:mockito-inline:3.2.0",
+                koinTest        : 'org.koin:koin-test:2.0.1',
+                testShared      : project(':TestShared')
+        ]
+
+        androidxTestLibs = [
+                archCoreTesting : 'android.arch.core:core-testing:1.1.1'
         ]
 
 

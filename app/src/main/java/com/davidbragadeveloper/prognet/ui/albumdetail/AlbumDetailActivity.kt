@@ -36,8 +36,10 @@ class AlbumDetailActivity : AppCompatActivity() {
 
     private val coarsePermissionRequester = PermissionRequester(this, ACCESS_COARSE_LOCATION)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.refresh()
         setContentView(R.layout.activity_album_detail)
         viewModel.model.observe(this, Observer(::updateUI))
         addTrackListFragment()

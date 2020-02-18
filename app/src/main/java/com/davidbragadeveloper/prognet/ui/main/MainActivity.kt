@@ -16,8 +16,10 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by currentScope.viewModel(this)
     private lateinit var adapter: AlbumsAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.refresh()
         setContentView(R.layout.activity_main)
         adapter = AlbumsAdapter(viewModel::onAlbumClicked)
         recycler.adapter = adapter

@@ -5,20 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davidbragadeveloper.domain.Album
+import com.davidbragadeveloper.prognet.ui.main.MainViewModel
 import com.davidbragadeveloper.usecases.usecases.GetAlbumById
 import com.davidbragadeveloper.usecases.usecases.ToggleAlbumHeared
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AlbumDetailViewModel(
     private val shortAlbumData: Album,
     private inline val getAlbumById: GetAlbumById,
-    private inline val toggleAlbumHeared: ToggleAlbumHeared
+    private inline val toggleAlbumHeared: ToggleAlbumHeared,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ): ViewModel() {
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>
         get() {
-            if (_model.value == null) refresh()
             return _model
         }
 
@@ -29,11 +32,11 @@ class AlbumDetailViewModel(
     }
 
     init {
-        refresh()
+        _model.value = UiModel.Loading
     }
 
-    private fun refresh() =
-        viewModelScope.launch {
+    fun refresh() =
+        viewModelScope.launch(dispatcher) {
             _model.value = UiModel.Loading
             _model.value =
                 getAlbumById(shortAlbumData.id).fold(
@@ -46,20 +49,20 @@ class AlbumDetailViewModel(
                 )
         }
 
-    fun hearedFabClicked() = viewModelScope.launch {
+    fun hearedFabClicked() =
         when (val modelValue = model.value) {
             is UiModel.Content -> {
-                viewModelScope.launch {
+                viewModelScope.launch(dispatcher) {
                     toggleAlbumHeared(modelValue.album)
                         .fold(
                             ifFailure = {},
                             ifSuccess = { refresh() }
                         )
                 }
-
             }
             else -> {}
         }
-    }
+
 }
+
 
