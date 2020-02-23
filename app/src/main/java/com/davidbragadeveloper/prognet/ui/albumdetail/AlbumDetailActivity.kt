@@ -30,8 +30,10 @@ class AlbumDetailActivity : AppCompatActivity() {
     }
 
 
+
     private val viewModel: AlbumDetailViewModel by currentScope.viewModel(this){
-        parametersOf(intent.getSerializableExtra(ALBUM) as Album)
+        val album =  (intent.getSerializableExtra(ALBUM) as Album).also(::setUpFields)
+        parametersOf(album)
     }
 
     private val coarsePermissionRequester = PermissionRequester(this, ACCESS_COARSE_LOCATION)
@@ -39,25 +41,25 @@ class AlbumDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.refresh()
         setContentView(R.layout.activity_album_detail)
+        viewModel.refresh()
         viewModel.model.observe(this, Observer(::updateUI))
         addTrackListFragment()
         setUpFabButton()
     }
 
-    private fun updateUI(model: AlbumDetailViewModel.UiModel) =
-        when(model){
-            AlbumDetailViewModel.UiModel.Loading -> {}
-            is AlbumDetailViewModel.UiModel.Content -> {
-                with(model.album){
-                    titleTextView.text = title
-                    mainImageView.loadUrl(url = coverImage)
-                    refreshFabButtonState(isHeared = heared)
-                }
-            }
-            AlbumDetailViewModel.UiModel.Error -> {}
-        }
+    private fun updateUI(model: AlbumDetailViewModel.UiModel) = when(model){
+        AlbumDetailViewModel.UiModel.Loading -> {}
+        is AlbumDetailViewModel.UiModel.Content -> { setUpFields(model.album) }
+        AlbumDetailViewModel.UiModel.Error -> {}
+    }
+
+    private fun setUpFields(album: Album) = with(album) {
+        titleTextView.text = title
+        mainImageView.loadUrl(url = coverImage)
+        refreshFabButtonState(isHeared = heared)
+    }
+
 
     private fun setUpFabButton() {
        hearedFab.backgroundTintList = ColorStateList.valueOf(Color.DKGRAY)

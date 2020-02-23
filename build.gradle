@@ -55,9 +55,9 @@ allprojects {
         ]
 
         libs = [
-                okhttpLoginInterceptor   : 'com.squareup.okhttp3:logging-interceptor:3.14.1',
-                retrofit                 : 'com.squareup.retrofit2:retrofit:2.6.0',
-                retrofitGsonConverter    : 'com.squareup.retrofit2:converter-gson:2.6.0',
+                okhttpLoginInterceptor   : 'com.squareup.okhttp3:logging-interceptor:4.2.1',
+                retrofit                 : 'com.squareup.retrofit2:retrofit:2.7.1',
+                retrofitGsonConverter    : 'com.squareup.retrofit2:converter-gson:2.7.1',
                 retrofitCoroutinesAdapter: 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2',
                 koinViewModel            : 'org.koin:koin-android-viewmodel:2.0.1',
                 koinScope                : 'org.koin:koin-androidx-scope:2.0.1',
@@ -78,10 +78,13 @@ allprojects {
 
 
         androidTestLibs = [
-
-                espresso     : 'androidx.test.espresso:espresso-core:3.2.0',
+                testRunner   : 'androidx.test:runner:1.2.0',
+                espresso     : 'androidx.test.espresso:espresso-contrib:3.2.0',
                 extJunit     : 'androidx.test.ext:junit:1.1.1',
                 koinTest     : 'org.koin:koin-test:2.0.1',
+                rules        : 'androidx.test:rules:1.2.0',
+                mockWebServer: 'com.squareup.okhttp3:mockwebserver:4.2.1',
+                okhttpIdling : 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
         ]
     }
 }

@@ -21,7 +21,8 @@ fun initMockedDi(vararg modules: Module) {
 }
 
 private val mockedAppModule = module {
-    single(named("apiKey")) { "12456" }
+    single(named("apiKey")) { "123456" }
+    single(named("apiSecret")){ "98765432" }
     single<AlbumLocalDataSource> { FakeLocalDataSource() }
     single<AlbumRemoteDataSource> { FakeRemoteDataSource() }
     single<LocationDataSource> { FakeLocationDataSource() }
@@ -47,7 +48,10 @@ class FakeLocalDataSource : AlbumLocalDataSource{
 
     override suspend fun findById(id: Long): Try<Album> = Try{ albums.first { it.id == id }}
 
-    override suspend fun updateHeared(album: Album): Try<Boolean> = Try{ !album.heared}
+    override suspend fun updateHeared(album: Album): Try<Boolean> = Try{
+        albums = albums.filterNot { album.id == it.id } + album
+        !album.heared
+    }
 
     override suspend fun saveNotSavedAlbums(albums: List<Album>) { this.albums = albums }
 

@@ -42,13 +42,13 @@ fun Application.initDI(){
 private val appModule = module{
     single(named("apiKey")) { BuildConfig.discogsApiKey }
     single(named("apiSecret")){ BuildConfig.discogsApiSecret }
-    single(named("baseUrl")) { "https://api.themoviedb.org/3/" }
-    single { DiscogsDb(get(named("baseUrl")))}
     single { ProgNetDatabase.build(androidContext())}
     factory<AlbumLocalDataSource> { RoomAlbumDataSource(get()) }
     factory<AlbumRemoteDataSource> { DiscogsAlbumDataSource(get()) }
     factory<LocationDataSource>{ PlayServicesLocationDataSource(get())}
     factory<PermissionChecker>{ AndroidPermissionChecker(get())}
+    single(named("baseUrl")) { "https://api.discogs.com/" }
+    single { DiscogsDb(get(named("baseUrl")))}
 }
 
 val dataModule = module {
@@ -62,7 +62,7 @@ val dataModule = module {
 }
 
 
-private val scopesModule = module{
+val scopesModule = module{
     scope(named<MainActivity>()) {
         scoped { buildDiscoverAlbumsUseCase(get()) }
         viewModel { MainViewModel(get()) }
