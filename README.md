@@ -2,13 +2,16 @@
 
 ProgNet is a progressive rock mobile application based in Discogs public database, allows user to discover and see the details of new albums. It saves the albums recently heard along with the location where they have been heard for future social network implementations.
 
+
 ## Settings
 
 To run it the user needs to include the apiKeys.properties file in the root directory, with this structure
 
+```
 discogsApiKey="XXXXXXXXXXXXX"
 discogsApiSecret="XXXXXXXXXXX"
 
+```
 
 ## Considerations
 
